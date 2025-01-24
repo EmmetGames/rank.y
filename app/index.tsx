@@ -16,6 +16,7 @@ import {
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { ThemedTextInput } from '@/components/ThemedTextInput';
 
 import { Swipeable } from "react-native-gesture-handler";
 
@@ -45,10 +46,10 @@ export default function App() {
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
         {items ? (
-                <PairwiseRanker items={items} onRestart={handleRestart} />
-              ) : (
-                <InputPage onStartRanking={handleStartRanking} />
-              )}
+            <PairwiseRanker items={items} onRestart={handleRestart} />
+          ) : (
+            <InputPage onStartRanking={handleStartRanking} />
+          )}
       </ThemedView>
     </ParallaxScrollView>
   );
@@ -91,12 +92,12 @@ const PairwiseRanker = ({ items, onRestart }) => {
 
   if (unranked.length === 0) {
     return (
-      <View style={styles.container}>
-        <Text style={styles.heading}>Final Ranking</Text>
+      <View style={styles.stepContainer}>
+        <ThemedText style={styles.heading}>Final Ranking</ThemedText>
         {ranked.map((item, index) => (
-          <Text key={index} style={styles.item}>
+          <ThemedText key={index} style={styles.item}>
             {index + 1}. {item}
-          </Text>
+          </ThemedText>
         ))}
         <Button title="Restart" onPress={handleRestart} />
       </View>
@@ -107,10 +108,10 @@ const PairwiseRanker = ({ items, onRestart }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Pairwise Ranker</Text>
+      <ThemedText style={styles.heading}>Pairwise Ranker</ThemedText>
       <View style={styles.buttonContainer}>
         <Button title={unranked[first]} onPress={() => handleChoice(unranked[first])} />
-        <Text style={styles.vs}>VS</Text>
+        <ThemedText style={styles.vs}>VS</ThemedText>
         <Button title={unranked[second]} onPress={() => handleChoice(unranked[second])} />
       </View>
       <Button title="Restart" onPress={handleRestart} />
@@ -158,21 +159,20 @@ const InputPage = ({ onStartRanking }) => {
       )}
     >
       <TouchableOpacity onPress={() => setInputValue(item)} style={styles.listItem}>
-        <Text style={[
+        <ThemedText style={[
           styles.itemText,
           colorScheme === "dark" ? styles.darkText : styles.lightText
-        ]}>{item}</Text>
+        ]}>{item}</ThemedText>
       </TouchableOpacity>
     </Swipeable>
   );
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Enter Items to Rank</Text>
-      <TextInput
+      <ThemedText style={styles.heading}>Enter Items to Rank</ThemedText>
+      <ThemedTextInput
         style={[
-          styles.input,
-          colorScheme === "dark" ? styles.darkInput : styles.lightInput
+          styles.input
         ]}
         placeholder="Enter an item"
         placeholderTextColor={colorScheme === "dark" ? "#aaaaaa" : "#666666"}
@@ -227,16 +227,6 @@ const styles = StyleSheet.create({
     width: "80%",
     borderRadius: 5,
   },
-  lightInput: {
-    borderColor: "gray",
-    backgroundColor: "#ffffff",
-    color: "#000000",
-  },
-  darkInput: {
-    borderColor: "#666666",
-    backgroundColor: "#333333",
-    color: "#ffffff",
-  },
   list: {
     width: "100%",
     marginTop: 20,
@@ -248,12 +238,6 @@ const styles = StyleSheet.create({
   },
   itemText: {
     fontSize: 18,
-  },
-  lightText: {
-    color: "#000000",
-  },
-  darkText: {
-    color: "#ffffff",
   },
   buttonContainer: {
     flexDirection: "row",
@@ -268,12 +252,6 @@ const styles = StyleSheet.create({
   item: {
     fontSize: 18,
     marginVertical: 4,
-  },
-  lightBackground: {
-    backgroundColor: "#ffffff",
-  },
-  darkBackground: {
-    backgroundColor: "#000000",
   },
   deleteButtonContainer: {
     justifyContent: "center",
