@@ -1,40 +1,58 @@
 import React from 'react';
 import { ThemedView } from './ThemedView';
 import { ThemedText } from './ThemedText';
-import { StyleSheet, TouchableOpacity  } from 'react-native';
-import { useThemeColor } from '@/hooks/useThemeColor';
+import {
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 
 export function ListedItem({ item, deleteItem }) {
     return (
-        <ThemedView style={moreStyles.listedItem}>
-          <ThemedText>
-            {console.log(`Item Text: ${item.text}, Text Color: ${useThemeColor({}, 'text')}`)}
-            {item.text}
-          </ThemedText>
-          <TouchableOpacity
-        style={moreStyles.deleteButton}
-        onPress={() => deleteItem(item.id)}
-      >
-        <ThemedText>Delete</ThemedText>
-      </TouchableOpacity>
+      <ThemedView style={styles.item}>
+        <ThemedView style={styles.itemLeft}>
+          <ThemedText style={styles.itemText}>{item.text}</ThemedText>
         </ThemedView>
+        <ThemedView style={styles.circular}>
+          <TouchableOpacity key={item.id}  onPress={deleteItem}>
+            <Image
+              source={require('@/assets/images/partial-react-logo.png')}
+              style={styles.circular}
+            />
+          </TouchableOpacity>
+        </ThemedView>
+      </ThemedView>
       );
 }
 
-const moreStyles = StyleSheet.create({
-  listedItem: {
-    display: 'flex',
+const styles = StyleSheet.create({
+  item: {
+    padding: 15,
+    borderRadius: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
-    alignItems: 'center', /* Align items vertically in the center */
-    marginBottom: 8,
-    padding: 8,
-    borderRadius: 4,
+    marginBottom: 20,
   },
-  deleteButton: {
-    backgroundColor: '#ff6347', /* Tomato color */
-    color: '#fff',
-    padding: 4,
-    borderRadius: 4,
-    cursor: 'pointer',
+  itemLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap'
+  },
+  square: {
+    width: 24,
+    height: 24,
+    opacity: 0.4,
+    borderRadius: 5,
+    marginRight: 15,
+  },
+  itemText: {
+    maxWidth: '80%',
+  },
+  circular: {
+    width: 12,
+    height: 12,
+    borderWidth: 2,
+    borderRadius: 5,
   },
 });

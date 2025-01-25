@@ -5,7 +5,11 @@ import {
   Alert,
   useColorScheme,
   Image,
-  StyleSheet
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableOpacity,
+  ScrollView,
 } from "react-native";
 
 import ParallaxScrollView from '@/components/ParallaxScrollView';
@@ -141,23 +145,44 @@ const InputPage = ({ onStartRanking }) => {
   };
 
   return (
-    <ThemedView style={[styles.titleContainer, { flexDirection: "column" }]}>
-      <ThemedText style={styles.heading}>Enter Items to Rank</ThemedText>
-      {items.map(item => (
-        <ListedItem
-          key={item.id}
-          item={item}
-          deleteItem={deleteItem}
-        />
-      ))}
-      <ThemedTextInput
-        value={inputValue}
-        onChangeText={setInputValue}
-        placeholder="New Item"
-      />
-      <Button title="Add" onPress={addItem} />
-      <Button title="Start Ranking" onPress={handleStart} />
-    </ThemedView>
+      <View style={styles.container}>
+      {/* Added this scroll view to enable scrolling when list gets longer than the page */}
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1
+        }}
+        keyboardShouldPersistTaps='handled'
+      >
+
+      {/* Today's Tasks */}
+      <View style={styles.tasksWrapper}>
+        <ThemedText style={styles.sectionTitle}>Enter items to rank</ThemedText>
+        <View style={styles.items}>
+          {items.map(item => (
+            <ListedItem
+              key={item.id}
+              item={item}
+              deleteItem={deleteItem}
+            />
+          ))}
+        </View>
+      </View>
+        
+      </ScrollView>
+
+      <KeyboardAvoidingView 
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.writeTaskWrapper}
+      >
+        <ThemedTextInput style={styles.input} placeholder={'New Item'} value={inputValue} onChangeText={setInputValue} />
+        <TouchableOpacity onPress={addItem}>
+          <ThemedView style={styles.addWrapper}>
+            <ThemedText>+</ThemedText>
+          </ThemedView>
+        </TouchableOpacity>
+      </KeyboardAvoidingView>
+      
+    </View>
   );
 };
 
@@ -190,13 +215,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
   },
-  input: {
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 20,
-    width: "80%",
-    borderRadius: 5,
-  },
   list: {
     width: "100%",
     marginTop: 20,
@@ -228,5 +246,39 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "red",
     padding: 10,
+  },
+  input: {
+    paddingVertical: 15,
+    paddingHorizontal: 15,
+    borderRadius: 60,
+    borderWidth: 1,
+    width: 250,
+  },
+  writeTaskWrapper: {
+    position: 'absolute',
+    bottom: 60,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center'
+  },
+  addWrapper: {
+    width: 60,
+    height: 60,
+    borderRadius: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+  },
+  tasksWrapper: {
+    paddingTop: 80,
+    paddingHorizontal: 20,
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: 'bold'
+  },
+  items: {
+    marginTop: 30,
   },
 });
