@@ -1,25 +1,18 @@
 import React, { useState } from "react";
 import {
   View,
-  Text,
   Button,
-  TextInput,
   Alert,
-  FlatList,
-  TouchableOpacity,
   useColorScheme,
   Image,
-  StyleSheet,
-  Platform
+  StyleSheet
 } from "react-native";
 
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedTextInput } from '@/components/ThemedTextInput';
-
-import { Swipeable } from "react-native-gesture-handler";
-
+import { ListedItem } from '@/components/ListedItem';
 
 export default function App() {
   const [items, setItems] = useState(null);
@@ -125,18 +118,19 @@ const InputPage = ({ onStartRanking }) => {
   const [inputValue, setInputValue] = useState("");
   const colorScheme = useColorScheme();
 
-  const handleAddItem = () => {
+  function addItem() {
     if (inputValue.trim()) {
-      setItems([...items, inputValue.trim()]);
+      const newItem = { id: Date.now(), inputValue };
+      setItems([...items, newItem]);
       setInputValue("");
     } else {
       Alert.alert("Error", "Item cannot be empty.");
     }
   };
 
-  const handleDeleteItem = (index) => {
-    setItems(items.filter((_, i) => i !== index));
-  };
+  function deleteItem(id) {
+    setItems(items.filter(item => item.id !== id));
+  }
 
   const handleStart = () => {
     if (items.length < 2) {
@@ -146,48 +140,24 @@ const InputPage = ({ onStartRanking }) => {
     onStartRanking(items);
   };
 
-  const renderItem = ({ item, index }) => (
-    <Swipeable
-      renderRightActions={() => (
-        <View style={styles.deleteButtonContainer}>
-          <Button
-            title="Delete"
-            color="red"
-            onPress={() => handleDeleteItem(index)}
-          />
-        </View>
-      )}
-    >
-      <TouchableOpacity onPress={() => setInputValue(item)} style={styles.listItem}>
-        <ThemedText style={[
-          styles.itemText,
-          colorScheme === "dark" ? styles.darkText : styles.lightText
-        ]}>{item}</ThemedText>
-      </TouchableOpacity>
-    </Swipeable>
-  );
-
   return (
-    <View style={styles.container}>
+    <ThemedView style={[styles.titleContainer, { flexDirection: "column" }]}>
       <ThemedText style={styles.heading}>Enter Items to Rank</ThemedText>
+      {items.map(item => (
+        <ListedItem
+          key={item.id}
+          item={item}
+          deleteItem={deleteItem}
+        />
+      ))}
       <ThemedTextInput
-        style={[
-          styles.input
-        ]}
-        placeholder="Enter an item"
-        placeholderTextColor={colorScheme === "dark" ? "#aaaaaa" : "#666666"}
         value={inputValue}
         onChangeText={setInputValue}
+        placeholder="New Item"
       />
-      <Button title="Add Item" onPress={handleAddItem} />
-      <FlatList
-        data={items}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => index.toString()}
-        style={styles.list}
-      />
+      <Button title="Add" onPress={addItem} />
       <Button title="Start Ranking" onPress={handleStart} />
-    </View>
+    </ThemedView>
   );
 };
 
