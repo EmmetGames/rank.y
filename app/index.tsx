@@ -89,7 +89,7 @@ const PairwiseRanker = ({ items, onRestart }) => {
         <ThemedText style={styles.heading}>Final Ranking</ThemedText>
         {ranked.map((item, index) => (
           <ThemedText key={index} style={styles.item}>
-            {index + 1}. {item}
+            {index + 1}. {item.text}
           </ThemedText>
         ))}
         <Button title="Restart" onPress={handleRestart} />
@@ -103,9 +103,9 @@ const PairwiseRanker = ({ items, onRestart }) => {
     <View style={styles.container}>
       <ThemedText style={styles.heading}>Pairwise Ranker</ThemedText>
       <View style={styles.buttonContainer}>
-        <Button title={unranked[first]} onPress={() => handleChoice(unranked[first])} />
+        <Button title={unranked[first].text} onPress={() => handleChoice(unranked[first])} />
         <ThemedText style={styles.vs}>VS</ThemedText>
-        <Button title={unranked[second]} onPress={() => handleChoice(unranked[second])} />
+        <Button title={unranked[second].text} onPress={() => handleChoice(unranked[second])} />
       </View>
       <Button title="Restart" onPress={handleRestart} />
     </View>
