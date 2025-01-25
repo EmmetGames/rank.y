@@ -33,11 +33,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 20,
+    width: '100%',
   },
   itemLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    width: '80%',
   },
   square: {
     width: 24,
@@ -50,8 +52,8 @@ const styles = StyleSheet.create({
     maxWidth: '80%',
   },
   circular: {
-    width: 12,
-    height: 12,
+    width: 24,
+    height: 24,
     borderWidth: 2,
     borderRadius: 5,
   },

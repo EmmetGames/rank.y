@@ -133,6 +133,7 @@ const InputPage = ({ onStartRanking }) => {
   };
 
   function deleteItem(id) {
+    console.log('Deleting item: ', id);
     setItems(items.filter(item => item.id !== id));
   }
 
@@ -146,15 +147,7 @@ const InputPage = ({ onStartRanking }) => {
 
   return (
       <View style={styles.container}>
-      {/* Added this scroll view to enable scrolling when list gets longer than the page */}
-      <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1
-        }}
-        keyboardShouldPersistTaps='handled'
-      >
 
-      {/* Today's Tasks */}
       <View style={styles.tasksWrapper}>
         <ThemedText style={styles.sectionTitle}>Enter items to rank</ThemedText>
         <View style={styles.items}>
@@ -162,13 +155,11 @@ const InputPage = ({ onStartRanking }) => {
             <ListedItem
               key={item.id}
               item={item}
-              deleteItem={deleteItem}
+              deleteItem={() => deleteItem(item.id)}
             />
           ))}
         </View>
       </View>
-        
-      </ScrollView>
 
       <KeyboardAvoidingView 
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -256,7 +247,7 @@ const styles = StyleSheet.create({
   },
   writeTaskWrapper: {
     position: 'absolute',
-    bottom: 60,
+    bottom: 16,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-around',
