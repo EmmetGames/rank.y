@@ -120,7 +120,7 @@ const InputPage = ({ onStartRanking }) => {
 
   function addItem() {
     if (inputValue.trim()) {
-      const newItem = { id: Date.now(), inputValue };
+      const newItem = { id: Date.now(), text: inputValue.trim() };
       setItems([...items, newItem]);
       setInputValue("");
     } else {
