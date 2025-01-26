@@ -184,7 +184,6 @@ const PairwiseRanker = ({ items, onRestart }) => {
         </View>
       </View>
 
-      <Button title="Restart" onPress={handleRestart} />
       <View style={{ marginTop: 16, alignSelf: "stretch" }}>
         {/* Outer bar (background) */}
         <View
@@ -207,6 +206,9 @@ const PairwiseRanker = ({ items, onRestart }) => {
         <ThemedText style={{ textAlign: "center", marginTop: 6 }}>
           {progressPercent}% Complete
         </ThemedText>
+      </View>
+      <View style={{marginVertical: 100}}>
+        <Button title="Restart" onPress={handleRestart} />
       </View>
     </View>
   );
