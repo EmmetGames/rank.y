@@ -40,7 +40,11 @@ const styles = StyleSheet.create({
   },
   plusButton: {
     backgroundColor: '#2196F3',
-  }
+  },
+  buttonStyle: {
+    marginHorizontal: 8, // 8 px spacing on left/right
+    marginVertical: 8, // 8 px spacing on top/bottom
+  },
 });
 
 export default styles;

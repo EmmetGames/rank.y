@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Button, Alert } from "react-native";
+import { View, Button, Alert, StyleSheet } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import styles from "@/styles";
 
@@ -165,11 +165,24 @@ const PairwiseRanker = ({ items, onRestart }) => {
   return (
     <View style={styles.container}>
       <ThemedText style={styles.heading}>Let's pick!</ThemedText>
-      <View style={styles.buttonContainer}>
-        <Button title={firstItem.text} onPress={() => handleChoice(first)} />
-        <ThemedText style={styles.vs}>VS</ThemedText>
-        <Button title={secondItem.text} onPress={() => handleChoice(second)} />
+      <View style={pairwiseRankerStyles.rowContainer}>
+        <View style={pairwiseRankerStyles.leftContainer}>
+          <View style={styles.buttonStyle}>
+            <Button title={firstItem.text} onPress={() => handleChoice(first)} />
+          </View>
+        </View>
+
+        <View style={pairwiseRankerStyles.centerContainer}>
+          <ThemedText style={styles.vs}>VS</ThemedText>
+        </View>
+
+        <View style={pairwiseRankerStyles.rightContainer}>
+          <View style={styles.buttonStyle}>
+            <Button title={secondItem.text} onPress={() => handleChoice(second)} />
+          </View>
+        </View>
       </View>
+
       <Button title="Restart" onPress={handleRestart} />
       <View style={{ marginTop: 16, alignSelf: "stretch" }}>
         {/* Outer bar (background) */}
@@ -199,3 +212,34 @@ const PairwiseRanker = ({ items, onRestart }) => {
 };
 
 export default PairwiseRanker;
+
+const pairwiseRankerStyles = StyleSheet.create({
+  rowContainer: {
+    flexDirection: 'row',
+    width: '100%',
+    alignItems: 'center',
+  },
+  centerContainer: {
+    // No flex, so it doesn't expand
+    // or give it a small fixed width if you like
+    // width: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  leftContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "flex-end",
+  },
+  rightContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "flex-start",
+  },
+  vsText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    // any other styling you wish
+    marginHorizontal: 8,
+  },
+});
