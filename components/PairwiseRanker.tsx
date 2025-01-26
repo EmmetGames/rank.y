@@ -50,11 +50,62 @@ const PairwiseRanker = ({ items, onRestart }) => {
       if (!updatedRankedBelow[winnerId].includes(loserId)) {
         updatedRankedBelow[winnerId].push(loserId);
       }
-
-      // Add all items ranked below loserId to winnerId's list
+    
+      // Add all items from loser's rankedBelow list to winner's list, avoiding duplicates
       updatedRankedBelow[loserId].forEach((id) => {
         if (!updatedRankedBelow[winnerId].includes(id)) {
           updatedRankedBelow[winnerId].push(id);
+        }
+      });
+
+      // Remove pairings involving the loser and items already ranked below the winner
+      setPossiblePairings((prev) => {
+        console.log("Filtering Possible Pairings:");
+        prev.forEach(([id1, id2]) => {
+          console.log(
+            `- Pair: ${getText(id1)} (${id1}) vs ${getText(id2)} (${id2})`
+          );
+        });
+      
+        const filtered = prev.filter(([id1, id2]) => {
+          const loserIsInvalid =
+            (id1 != winnerId && updatedRankedBelow[id2].includes(id1)) ||
+            (id2 != winnerId && updatedRankedBelow[id1].includes(id2));
+      
+          const currentPairIsRanked =
+            (id1 === winnerId && id2 === loserId) ||
+            (id1 === loserId && id2 === winnerId);
+      
+          if (currentPairIsRanked) {
+            console.log(
+              `Removing pairing [${getText(id1)} (${id1}) vs ${getText(id2)} (${id2})] - already ranked.`
+            );
+          } else if (loserIsInvalid) {
+            console.log(
+              `Removing pairing [${getText(id1)} (${id1}) vs ${getText(id2)} (${id2})] - loser (${getText(
+                loserId
+              )}) - Inferred ranking.`
+            );
+          } else {
+            console.log(
+              `Keeping pairing [${getText(id1)} (${id1}) vs ${getText(id2)} (${id2})].`
+            );
+          }
+      
+          return !currentPairIsRanked && !loserIsInvalid;
+        });
+      
+        console.log(
+          `Filtered Possible Pairings: ${JSON.stringify(filtered.map(([id1, id2]) => [getText(id1), getText(id2)]))}`
+        );
+      
+        return filtered;
+      });
+    
+      // Find all items where the winner is in their rankedBelow list and propagate the loser's items
+      Object.keys(updatedRankedBelow).forEach((id) => {
+        if (updatedRankedBelow[id].includes(winnerId)) {
+          updateRankings(id, loserId); // Recursive call
         }
       });
     };
@@ -73,38 +124,22 @@ const PairwiseRanker = ({ items, onRestart }) => {
     );
     console.log("---"); // Spacing
 
-    // Update rankings for the selected pair
+  // Call updateRankings for the current choice
     updateRankings(selectedId, nonSelectedId);
-
-    // Remove pairs involving loserId from possible pairings
-    const newPairings = possiblePairings.filter(
-      ([id1, id2]) =>
-        !(
-          (id1 === selectedId && id2 === nonSelectedId) ||
-          (id1 === nonSelectedId && id2 === selectedId)
-        )
-    );
-
-    setPossiblePairings(newPairings);
     setRankedBelow(updatedRankedBelow);
 
-    // Debug: Print after modifications
-    console.log("After Update:");
-    console.log("Updated Ranked Below:");
-    Object.entries(updatedRankedBelow).forEach(([id, list]) => {
-      console.log(`- ${getText(id)} (${id}): ${list.map((lid) => `${getText(lid)} (${lid})`).join(", ")}`);
-    });
-    console.log("New Possible Pairings Count:", newPairings.length);
+    // Log after updates
+    console.log(
+      `After Update:\nUpdated Ranked Below:\n${Object.entries(updatedRankedBelow)
+        .map(([key, value]) => `- ${getText(key)} (${key}): ${value.map(getText)}`)
+        .join("\n")}`
+    );
+    
+    console.log("Updated Possible Pairings Count:", possiblePairings.length);
 
-    if (newPairings.length > 0) {
-      const newPair = newPairings[Math.floor(Math.random() * newPairings.length)];
-      console.log(
-        "Next Pair:",
-        `${getText(newPair[0])} (${newPair[0]}) vs ${getText(newPair[1])} (${newPair[1]})`
-      );
-      setCurrentPair(newPair);
+    if (possiblePairings.length > 0) { 
+      setCurrentPair(possiblePairings[Math.floor(Math.random() * possiblePairings.length)]);
     } else {
-      console.log("No more pairs left to rank.");
       setCurrentPair(null); // No more pairs to rank
     }
   };
