@@ -32,6 +32,10 @@ const InputPage = ({ onStartRanking }) => {
     setItems(items.filter((item) => item.id !== id));
   };
 
+  const handleDeleteItem = (item) => {
+    betterAlert({title: "Delete Item", message: "Are you sure you want to delete the item '" + item.text + "'?", onConfirm: () => deleteItem(item.id)});
+  };
+
   const handleStart = () => {
     if (items.length < 2) {
       betterAlert({title: "Error", message: "Please add at least two items to rank."});
@@ -49,7 +53,7 @@ const InputPage = ({ onStartRanking }) => {
             <ListedItem
               key={item.id}
               item={item}
-              deleteItem={() => deleteItem(item.id)}
+              deleteItem={() => handleDeleteItem(item)}
             />
           ))}
         </View>
