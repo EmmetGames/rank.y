@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
   infoButtonWrapper: {
     position: "absolute",
-    top: 40,    // adjust as needed based on your header or safe area
+    top: 70,    // adjust as needed based on your header or safe area
     right: 10,
     zIndex: 999,  // ensure the button is on top
   },

@@ -3,21 +3,15 @@ import {
   View,
   KeyboardAvoidingView,
   Platform,
-  TouchableOpacity,
-  Button,
-  Image,
-  SafeAreaView,
+  Button
 } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedTextInput } from "@/components/ThemedTextInput";
-import { ThemedView } from "@/components/ThemedView";
 import { ListedItem } from "@/components/ListedItem";
 import { PlusButton } from '@/components/PlusButton';
 import styles from "@/styles";
 import { betterAlert } from "@/utils/BetterAlert";
-import ParallaxScrollView from "@/components/ParallaxScrollView";
-import InfoModal from "./InfoModal";
-import InfoButton from "./InfoButton";
+import { PageView } from "./PageView";
 
 const InputPage = ({ onStartRanking, infoVisible, setInfoVisible }) => {
   const [items, setItems] = useState([]);
@@ -50,30 +44,7 @@ const InputPage = ({ onStartRanking, infoVisible, setInfoVisible }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      {/* Info Button at the top-left */}
-      <ThemedView style={styles.infoButtonWrapper}>
-        <InfoButton onPress={() => setInfoVisible(true)} />
-      </ThemedView>
-      <ThemedView style={{ flex: 1 }}>
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/leaderboardsComplex.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Rank.y</ThemedText>
-      </ThemedView>
-
-      <InfoModal
-        visible={infoVisible}
-        onClose={() => setInfoVisible(false)}
-      />
-
-      <ThemedView style={styles.stepContainer}>
+    <PageView content={
       <View style={styles.container}>
       <View>
         <ThemedText style={styles.sectionTitle}>Enter items to rank</ThemedText>
@@ -93,10 +64,8 @@ const InputPage = ({ onStartRanking, infoVisible, setInfoVisible }) => {
         ) : (null)}
       </View>
     </View>
-      </ThemedView>
-    </ParallaxScrollView>
-    </ThemedView>
-    <KeyboardAvoidingView
+    } bottomContent= {
+      <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.writeTaskWrapper}
       >
@@ -108,7 +77,7 @@ const InputPage = ({ onStartRanking, infoVisible, setInfoVisible }) => {
         />
         <PlusButton addItem={addItem} />
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    } infoVisible={infoVisible} setInfoVisible={setInfoVisible} />
   );
 };
 

@@ -4,8 +4,9 @@ import { ThemedText } from "@/components/ThemedText";
 import styles from "@/styles";
 import { AutoSizedButton } from "./AutoSizedButton";
 import { betterAlert } from "@/utils/BetterAlert";
+import { PageView } from "./PageView";
 
-const PairwiseRanker = ({ items, onRestart }) => {
+const PairwiseRanker = ({ items, onRestart, infoVisible, setInfoVisible }) => {
   const [rankedBelow, setRankedBelow] = useState({}); // Stores ranked-below lists per item
   const [possiblePairings, setPossiblePairings] = useState([]); // All possible pairings
   const [currentPair, setCurrentPair] = useState(null); // The pair currently being ranked
@@ -119,17 +120,32 @@ const PairwiseRanker = ({ items, onRestart }) => {
     });
 
     return (
-      <View style={styles.container}>
+      <PageView content={
+        <View style={styles.container}>
         <ThemedText style={styles.heading}>Final Ranking</ThemedText>
         {finalRanking.map((id, index) => (
           <ThemedText key={id} style={styles.item}>
             {index + 1}. {getText(id)}
           </ThemedText>
         ))}
-        <View style={{marginVertical: 100}}>
+      </View>
+      } bottomContent={
+        <View style={{bottom: 100, alignSelf: 'center', justifyContent: 'center'}}>
           <Button title="Restart" onPress={handleRestart} />
         </View>
-      </View>
+      } infoVisible={infoVisible} setInfoVisible={setInfoVisible} />
+
+
+
+
+
+
+
+
+
+
+
+
     );
   }
 
@@ -160,7 +176,8 @@ const PairwiseRanker = ({ items, onRestart }) => {
   );
 
   return (
-    <View style={styles.container}>
+    <PageView content={
+      <View style={styles.container}>
       <ThemedText style={styles.heading}>Let's pick!</ThemedText>
       <View style={pairwiseRankerStyles.rowContainer}>
         <View style={pairwiseRankerStyles.leftContainer}>
@@ -203,10 +220,12 @@ const PairwiseRanker = ({ items, onRestart }) => {
           {progressPercent}% Complete
         </ThemedText>
       </View>
-      <View style={{marginVertical: 100}}>
+    </View>
+    } bottomContent={
+      <View style={{bottom: 100, alignSelf: 'center', justifyContent: 'center'}}>
         <Button title="Restart" onPress={handleRestart} />
       </View>
-    </View>
+    } infoVisible={infoVisible} setInfoVisible={setInfoVisible} />
   );
 };
 

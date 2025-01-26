@@ -32,7 +32,7 @@ export default function App() {
 
   if (items) {
     return (
-      <PairwiseRanker items={items} onRestart={handleRestart} />
+      <PairwiseRanker items={items} onRestart={handleRestart} infoVisible={infoVisible} setInfoVisible={setInfoVisible} />
     )
   }
   else {
