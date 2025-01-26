@@ -36,6 +36,8 @@ const PairwiseRanker = ({ items, onRestart }) => {
     const nonSelectedId = selectedId === first ? second : first;
     const updatedRankedBelow = { ...rankedBelow };
 
+    const getText = (id) => items.find((item) => item.id === id)?.text || "Unknown";
+
     // Recursive function to update rankings
     const updateRankings = (winnerId, loserId) => {
       if (!updatedRankedBelow[winnerId].includes(loserId)) {
@@ -52,9 +54,15 @@ const PairwiseRanker = ({ items, onRestart }) => {
 
     // Debug: Print before modifications
     console.log("Before Update:");
-    console.log("Ranked Below:", JSON.stringify(updatedRankedBelow, null, 2));
+    console.log("Ranked Below:");
+    Object.entries(updatedRankedBelow).forEach(([id, list]) => {
+      console.log(`- ${getText(id)} (${id}): ${list.map((lid) => `${getText(lid)} (${lid})`).join(", ")}`);
+    });
     console.log("Possible Pairings Count:", possiblePairings.length);
-    console.log("Current Pair:", currentPair);
+    console.log(
+      "Current Pair:",
+      `${getText(first)} (${first}) vs ${getText(second)} (${second})`
+    );
 
     // Update rankings for the selected pair
     updateRankings(selectedId, nonSelectedId);
@@ -73,12 +81,18 @@ const PairwiseRanker = ({ items, onRestart }) => {
 
     // Debug: Print after modifications
     console.log("After Update:");
-    console.log("Updated Ranked Below:", JSON.stringify(updatedRankedBelow, null, 2));
+    console.log("Updated Ranked Below:");
+    Object.entries(updatedRankedBelow).forEach(([id, list]) => {
+      console.log(`- ${getText(id)} (${id}): ${list.map((lid) => `${getText(lid)} (${lid})`).join(", ")}`);
+    });
     console.log("New Possible Pairings Count:", newPairings.length);
 
     if (newPairings.length > 0) {
       const newPair = newPairings[Math.floor(Math.random() * newPairings.length)];
-      console.log("Next Pair:", newPair); // Debug: Print next pair
+      console.log(
+        "Next Pair:",
+        `${getText(newPair[0])} (${newPair[0]}) vs ${getText(newPair[1])} (${newPair[1]})`
+      );
       setCurrentPair(newPair);
     } else {
       console.log("No more pairs left to rank.");
@@ -122,9 +136,20 @@ const PairwiseRanker = ({ items, onRestart }) => {
   const secondItem = items.find((item) => item.id === second);
 
   // Debug: Print the current pair and their rankings
-  console.log("Current Pair:", currentPair);
-  console.log("Ranked Below for First Item:", rankedBelow[first]);
-  console.log("Ranked Below for Second Item:", rankedBelow[second]);
+  console.log(
+    "Current Pair:",
+    `${firstItem.text} (${firstItem.id}) vs ${secondItem.text} (${secondItem.id})`
+  );
+  console.log(
+    "Ranked Below for First Item:",
+    firstItem.text,
+    rankedBelow[first].map((id) => `${getText(id)} (${id})`)
+  );
+  console.log(
+    "Ranked Below for Second Item:",
+    secondItem.text,
+    rankedBelow[second].map((id) => `${getText(id)} (${id})`)
+  );
 
   return (
     <View style={styles.container}>
