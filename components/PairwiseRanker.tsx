@@ -42,52 +42,46 @@ const PairwiseRanker = ({ items, onRestart }) => {
         updatedRankedBelow[winnerId].push(loserId);
       }
 
-      // Remove pairs involving loserId from possible pairings
-      setPossiblePairings((prev) =>
-        prev.filter(
-          ([id1, id2]) => !(id1 === loserId || id2 === loserId)
-        )
-      );
-
       // Add all items ranked below loserId to winnerId's list
       updatedRankedBelow[loserId].forEach((id) => {
         if (!updatedRankedBelow[winnerId].includes(id)) {
           updatedRankedBelow[winnerId].push(id);
         }
       });
-
-      // Remove all pairs involving items ranked below loserId
-      setPossiblePairings((prev) =>
-        prev.filter(
-          ([id1, id2]) =>
-            !(
-              updatedRankedBelow[loserId].includes(id1) ||
-              updatedRankedBelow[loserId].includes(id2)
-            )
-        )
-      );
-
-      // Recursively update rankings for any item that had the winnerId ranked below it
-      Object.keys(updatedRankedBelow).forEach((id) => {
-        if (updatedRankedBelow[id].includes(winnerId)) {
-          updateRankings(id, loserId);
-        }
-      });
     };
+
+    // Debug: Print before modifications
+    console.log("Before Update:");
+    console.log("Ranked Below:", JSON.stringify(updatedRankedBelow, null, 2));
+    console.log("Possible Pairings Count:", possiblePairings.length);
+    console.log("Current Pair:", currentPair);
 
     // Update rankings for the selected pair
     updateRankings(selectedId, nonSelectedId);
+
+    // Remove pairs involving loserId from possible pairings
+    const newPairings = possiblePairings.filter(
+      ([id1, id2]) =>
+        !(
+          (id1 === selectedId && id2 === nonSelectedId) ||
+          (id1 === nonSelectedId && id2 === selectedId)
+        )
+    );
+
+    setPossiblePairings(newPairings);
     setRankedBelow(updatedRankedBelow);
 
-    // Choose a new pair randomly from the remaining possible pairings
-    const newPairings = possiblePairings.filter(
-      ([id1, id2]) => !(id1 === selectedId && id2 === nonSelectedId)
-    );
-    setPossiblePairings(newPairings);
+    // Debug: Print after modifications
+    console.log("After Update:");
+    console.log("Updated Ranked Below:", JSON.stringify(updatedRankedBelow, null, 2));
+    console.log("New Possible Pairings Count:", newPairings.length);
 
     if (newPairings.length > 0) {
-      setCurrentPair(newPairings[Math.floor(Math.random() * newPairings.length)]);
+      const newPair = newPairings[Math.floor(Math.random() * newPairings.length)];
+      console.log("Next Pair:", newPair); // Debug: Print next pair
+      setCurrentPair(newPair);
     } else {
+      console.log("No more pairs left to rank.");
       setCurrentPair(null); // No more pairs to rank
     }
   };
@@ -127,19 +121,18 @@ const PairwiseRanker = ({ items, onRestart }) => {
   const firstItem = items.find((item) => item.id === first);
   const secondItem = items.find((item) => item.id === second);
 
+  // Debug: Print the current pair and their rankings
+  console.log("Current Pair:", currentPair);
+  console.log("Ranked Below for First Item:", rankedBelow[first]);
+  console.log("Ranked Below for Second Item:", rankedBelow[second]);
+
   return (
     <View style={styles.container}>
       <ThemedText style={styles.heading}>Pairwise Ranker</ThemedText>
       <View style={styles.buttonContainer}>
-        <Button
-          title={firstItem.text}
-          onPress={() => handleChoice(first)}
-        />
+        <Button title={firstItem.text} onPress={() => handleChoice(first)} />
         <ThemedText style={styles.vs}>VS</ThemedText>
-        <Button
-          title={secondItem.text}
-          onPress={() => handleChoice(second)}
-        />
+        <Button title={secondItem.text} onPress={() => handleChoice(second)} />
       </View>
       <Button title="Restart" onPress={handleRestart} />
     </View>
