@@ -134,18 +134,6 @@ const PairwiseRanker = ({ items, onRestart, infoVisible, setInfoVisible }) => {
           <Button title="Restart" onPress={handleRestart} />
         </View>
       } infoVisible={infoVisible} setInfoVisible={setInfoVisible} />
-
-
-
-
-
-
-
-
-
-
-
-
     );
   }
 

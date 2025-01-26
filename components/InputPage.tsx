@@ -74,6 +74,7 @@ const InputPage = ({ onStartRanking, infoVisible, setInfoVisible }) => {
           placeholder="New Item"
           value={inputValue}
           onChangeText={setInputValue}
+          onEnterPress={addItem}
         />
         <PlusButton addItem={addItem} />
       </KeyboardAvoidingView>
