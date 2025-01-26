@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Button, Alert, StyleSheet } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import styles from "@/styles";
+import { AutoSizedButton } from "./AutoSizedButton";
 
 const PairwiseRanker = ({ items, onRestart }) => {
   const [rankedBelow, setRankedBelow] = useState({}); // Stores ranked-below lists per item
@@ -168,7 +169,7 @@ const PairwiseRanker = ({ items, onRestart }) => {
       <View style={pairwiseRankerStyles.rowContainer}>
         <View style={pairwiseRankerStyles.leftContainer}>
           <View style={styles.buttonStyle}>
-            <Button title={firstItem.text} onPress={() => handleChoice(first)} />
+            <AutoSizedButton title={firstItem.text} onPress={() => handleChoice(first)} />
           </View>
         </View>
 
@@ -178,7 +179,7 @@ const PairwiseRanker = ({ items, onRestart }) => {
 
         <View style={pairwiseRankerStyles.rightContainer}>
           <View style={styles.buttonStyle}>
-            <Button title={secondItem.text} onPress={() => handleChoice(second)} />
+            <AutoSizedButton title={secondItem.text} onPress={() => handleChoice(second)} />
           </View>
         </View>
       </View>
