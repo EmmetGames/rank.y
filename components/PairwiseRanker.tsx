@@ -124,7 +124,7 @@ const PairwiseRanker = ({ items, onRestart }) => {
 
   if (!currentPair) {
     const finalRanking = Object.keys(rankedBelow).sort((a, b) => {
-      return rankedBelow[a].length - rankedBelow[b].length;
+      return rankedBelow[b].length - rankedBelow[a].length;
     });
 
     return (
@@ -132,7 +132,7 @@ const PairwiseRanker = ({ items, onRestart }) => {
         <ThemedText style={styles.heading}>Final Ranking</ThemedText>
         {finalRanking.map((id, index) => (
           <ThemedText key={id} style={styles.item}>
-            {index + 1}. {items.find((item) => item.id === id).text}
+            {index + 1}. {getText(id)}
           </ThemedText>
         ))}
         <Button title="Restart" onPress={handleRestart} />
