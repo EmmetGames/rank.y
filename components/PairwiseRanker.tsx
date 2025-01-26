@@ -59,48 +59,45 @@ const PairwiseRanker = ({ items, onRestart }) => {
       });
 
       // Remove pairings involving the loser and items already ranked below the winner
-      setPossiblePairings((prev) => {
-        console.log("Filtering Possible Pairings:");
-        prev.forEach(([id1, id2]) => {
-          console.log(
-            `- Pair: ${getText(id1)} (${id1}) vs ${getText(id2)} (${id2})`
-          );
-        });
-      
-        const filtered = prev.filter(([id1, id2]) => {
-          const loserIsInvalid =
-            (id1 != winnerId && updatedRankedBelow[id2].includes(id1)) ||
-            (id2 != winnerId && updatedRankedBelow[id1].includes(id2));
-      
-          const currentPairIsRanked =
-            (id1 === winnerId && id2 === loserId) ||
-            (id1 === loserId && id2 === winnerId);
-      
-          if (currentPairIsRanked) {
-            console.log(
-              `Removing pairing [${getText(id1)} (${id1}) vs ${getText(id2)} (${id2})] - already ranked.`
-            );
-          } else if (loserIsInvalid) {
-            console.log(
-              `Removing pairing [${getText(id1)} (${id1}) vs ${getText(id2)} (${id2})] - loser (${getText(
-                loserId
-              )}) - Inferred ranking.`
-            );
-          } else {
-            console.log(
-              `Keeping pairing [${getText(id1)} (${id1}) vs ${getText(id2)} (${id2})].`
-            );
-          }
-      
-          return !currentPairIsRanked && !loserIsInvalid;
-        });
-      
+      console.log("Filtering Possible Pairings:");
+      possiblePairings.forEach(([id1, id2]) => {
         console.log(
-          `Filtered Possible Pairings: ${JSON.stringify(filtered.map(([id1, id2]) => [getText(id1), getText(id2)]))}`
+          `- Pair: ${getText(id1)} (${id1}) vs ${getText(id2)} (${id2})`
         );
-      
-        return filtered;
       });
+    
+      const filtered = possiblePairings.filter(([id1, id2]) => {
+        const loserIsInvalid =
+          (id1 != winnerId && updatedRankedBelow[id2].includes(id1)) ||
+          (id2 != winnerId && updatedRankedBelow[id1].includes(id2));
+    
+        const currentPairIsRanked =
+          (id1 === winnerId && id2 === loserId) ||
+          (id1 === loserId && id2 === winnerId);
+    
+        if (currentPairIsRanked) {
+          console.log(
+            `Removing pairing [${getText(id1)} (${id1}) vs ${getText(id2)} (${id2})] - already ranked.`
+          );
+        } else if (loserIsInvalid) {
+          console.log(
+            `Removing pairing [${getText(id1)} (${id1}) vs ${getText(id2)} (${id2})] - loser (${getText(
+              loserId
+            )}) - Inferred ranking.`
+          );
+        } else {
+          console.log(
+            `Keeping pairing [${getText(id1)} (${id1}) vs ${getText(id2)} (${id2})].`
+          );
+        }
+    
+        return !currentPairIsRanked && !loserIsInvalid;
+      });
+    
+      console.log(
+        `Filtered Possible Pairings: ${JSON.stringify(filtered.map(([id1, id2]) => [getText(id1), getText(id2)]))}`
+      );      
+      setPossiblePairings(filtered);
     
       // Find all items where the winner is in their rankedBelow list and propagate the loser's items
       Object.keys(updatedRankedBelow).forEach((id) => {
