@@ -10,6 +10,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedTextInput } from "@/components/ThemedTextInput";
 import { ThemedView } from "@/components/ThemedView";
 import { ListedItem } from "@/components/ListedItem";
+import { PlusButton } from '@/components/PlusButton';
 import styles from "@/styles";
 
 const InputPage = ({ onStartRanking }) => {
@@ -72,11 +73,7 @@ const InputPage = ({ onStartRanking }) => {
           value={inputValue}
           onChangeText={setInputValue}
         />
-        <TouchableOpacity onPress={addItem}>
-          <ThemedView style={styles.addWrapper}>
-            <ThemedText>+</ThemedText>
-          </ThemedView>
-        </TouchableOpacity>
+        <PlusButton addItem={addItem} />
       </KeyboardAvoidingView>
     </View>
   );
