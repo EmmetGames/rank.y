@@ -26,7 +26,7 @@ const InputPage = ({ onStartRanking, infoVisible, setInfoVisible }) => {
       setItems([...items, newItem]);
       setInputValue("");
     } else {
-      betterAlert({title: "Error", message: "Item cannot be empty."});
+      betterAlert({ title: "Error", message: "Item cannot be empty." });
     }
   };
 
@@ -37,13 +37,13 @@ const InputPage = ({ onStartRanking, infoVisible, setInfoVisible }) => {
 
   // Prompts the user to confirm if they want to delete an item.
   const handleDeleteItem = (item) => {
-    betterAlert({title: "Delete Item", message: "Are you sure you want to delete the item '" + item.text + "'?", onConfirm: () => deleteItem(item.id)});
+    betterAlert({ title: "Delete Item", message: "Are you sure you want to delete the item '" + item.text + "'?", onConfirm: () => deleteItem(item.id) });
   };
 
   // Starts the ranking process if there are at least two items to rank.
   const handleStart = () => {
     if (items.length < 2) {
-      betterAlert({title: "Error", message: "Please add at least two items to rank."});
+      betterAlert({ title: "Error", message: "Please add at least two items to rank." });
       return;
     }
     onStartRanking(items);
@@ -52,30 +52,30 @@ const InputPage = ({ onStartRanking, infoVisible, setInfoVisible }) => {
   return (
     <PageView content={ // We wrap the content in a PageView component to make it look nice.
       <ThemedView style={styles.container}>
-      <ThemedView>
-        {/* Title */}
-        <ThemedText style={styles.sectionTitle}>Enter items to rank</ThemedText>
+        <ThemedView>
+          {/* Title */}
+          <ThemedText style={styles.sectionTitle}>Enter items to rank</ThemedText>
 
-        {/* For each item we display a ListedItem, which is UI that shows the item & allows it to be deleted. */}
-        <ThemedView style={styles.items}>
-          {items.map((item) => (
-            <ListedItem
-              key={item.id}
-              item={item}
-              deleteItem={() => handleDeleteItem(item)}
-            />
-          ))}
+          {/* For each item we display a ListedItem, which is UI that shows the item & allows it to be deleted. */}
+          <ThemedView style={styles.items}>
+            {items.map((item) => (
+              <ListedItem
+                key={item.id}
+                item={item}
+                deleteItem={() => handleDeleteItem(item)}
+              />
+            ))}
+          </ThemedView>
+        </ThemedView>
+
+        {/* Shows begin ranking button only if there are 2 or more input items. */}
+        <ThemedView>
+          {items.length >= 2 ? (
+            <Button title="Begin ranking" onPress={handleStart} />
+          ) : (null)}
         </ThemedView>
       </ThemedView>
-
-      {/* Shows begin ranking button only if there are 2 or more input items. */}
-      <ThemedView>
-        {items.length >= 2 ? (
-          <Button title="Begin ranking" onPress={handleStart} />
-        ) : (null)}
-      </ThemedView>
-    </ThemedView>
-    } bottomContent= {
+    } bottomContent={
       /* Anchored to the bottom of the screen is the input textbox for new items. */
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
