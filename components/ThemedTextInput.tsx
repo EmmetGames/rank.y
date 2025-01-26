@@ -13,8 +13,9 @@ export function ThemedTextInput({
   darkColor,
   ...rest
 }: ThemedTextInputProps) {
-  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
+  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'inputBackground');
+  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'inputText');
+  console.log('Default background color', backgroundColor);
 
   return (
     <TextInput
