@@ -5,6 +5,7 @@ import { ThemedView } from './ThemedView';
 import { ThemedText } from './ThemedText';
 import styles from '@/styles';
 
+// Button component meant for adding. Looks like a 'native' add button in apps.
 export function PlusButton({ addItem }) {
   return (
     <ThemedView>

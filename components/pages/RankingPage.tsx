@@ -220,7 +220,7 @@ const RankingPage = ({ items, onRestart, infoVisible, setInfoVisible }) => {
               }}
             />
           </ThemedView>
-          
+
           {/* Progress text */}
           <ThemedText style={{ textAlign: "center", marginTop: 6 }}>
             {progressPercent}% Complete

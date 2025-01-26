@@ -8,6 +8,7 @@ export type ThemedTextInputProps = TextInputProps & {
   onEnterPress?: () => void;
 };
 
+// TextInput component that uses the theme for color
 export function ThemedTextInput({
   style,
   lightColor,

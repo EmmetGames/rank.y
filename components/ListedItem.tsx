@@ -7,22 +7,24 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+// Component that displays an item that the user put into the app.
+// The item can be deleted by pressing the trash can icon.
 export function ListedItem({ item, deleteItem }) {
-    return (
-      <ThemedView style={styles.item}>
-        <ThemedView style={styles.itemLeft}>
-          <ThemedText style={styles.itemText}>{item.text}</ThemedText>
-        </ThemedView>
-        <ThemedView style={styles.circular}>
-          <TouchableOpacity key={item.id}  onPress={deleteItem}>
-            <Image
-              source={require('@/assets/images/trashcan.png')}
-              style={styles.circular}
-            />
-          </TouchableOpacity>
-        </ThemedView>
+  return (
+    <ThemedView style={styles.item}>
+      <ThemedView style={styles.itemLeft}>
+        <ThemedText style={styles.itemText}>{item.text}</ThemedText>
       </ThemedView>
-      );
+      <ThemedView style={styles.circular}>
+        <TouchableOpacity key={item.id} onPress={deleteItem}>
+          <Image
+            source={require('@/assets/images/trashcan.png')}
+            style={styles.circular}
+          />
+        </TouchableOpacity>
+      </ThemedView>
+    </ThemedView>
+  );
 }
 
 const styles = StyleSheet.create({
