@@ -5,6 +5,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   TouchableOpacity,
+  Button,
 } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedTextInput } from "@/components/ThemedTextInput";
@@ -53,16 +54,9 @@ const InputPage = ({ onStartRanking }) => {
           ))}
         </View>
       </View>
-      <TouchableOpacity onPress={handleStart}>
-        <ThemedView style={styles.addWrapper}>
-          <ThemedText>Begin Ranking</ThemedText>
-        </ThemedView>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleStart}>
-        <ThemedView style={styles.addWrapper}>
-          <ThemedText>Begin Ranking</ThemedText>
-        </ThemedView>
-      </TouchableOpacity>
+      <Button title="Begin ranking" onPress={handleStart} />
+      <Button title="Begin ranking" onPress={handleStart} />
+      <Button title="Begin ranking" onPress={handleStart} />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.writeTaskWrapper}
