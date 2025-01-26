@@ -9,6 +9,7 @@ const PairwiseRanker = ({ items, onRestart }) => {
   const [currentPair, setCurrentPair] = useState(null); // The pair currently being ranked
 
   useEffect(() => {
+    console.log("Starting Items Array:", items);
     if (items) {
       // Initialize rankedBelow and possible pairings
       const initialRankedBelow = items.reduce((acc, item) => {
@@ -29,14 +30,20 @@ const PairwiseRanker = ({ items, onRestart }) => {
     }
   }, [items]);
 
+  const getText = (id) => {
+    const item = items.find((item) => item.id == id);
+    if (!item) {
+      console.log(`getText: No item found for ID ${id}`);
+    }
+    return item?.text || "Unknown";
+  };
+
   const handleChoice = (selectedId) => {
     if (!currentPair) return;
 
     const [first, second] = currentPair;
     const nonSelectedId = selectedId === first ? second : first;
     const updatedRankedBelow = { ...rankedBelow };
-
-    const getText = (id) => items.find((item) => item.id === id)?.text || "Unknown";
 
     // Recursive function to update rankings
     const updateRankings = (winnerId, loserId) => {
@@ -53,6 +60,7 @@ const PairwiseRanker = ({ items, onRestart }) => {
     };
 
     // Debug: Print before modifications
+    console.log(""); // Spacing
     console.log("Before Update:");
     console.log("Ranked Below:");
     Object.entries(updatedRankedBelow).forEach(([id, list]) => {
@@ -63,6 +71,7 @@ const PairwiseRanker = ({ items, onRestart }) => {
       "Current Pair:",
       `${getText(first)} (${first}) vs ${getText(second)} (${second})`
     );
+    console.log("---"); // Spacing
 
     // Update rankings for the selected pair
     updateRankings(selectedId, nonSelectedId);
