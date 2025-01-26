@@ -124,7 +124,7 @@ const PairwiseRanker = ({ items, onRestart }) => {
     });
 
     return (
-      <View style={styles.stepContainer}>
+      <View style={styles.container}>
         <ThemedText style={styles.heading}>Final Ranking</ThemedText>
         {finalRanking.map((id, index) => (
           <ThemedText key={id} style={styles.item}>
@@ -164,7 +164,7 @@ const PairwiseRanker = ({ items, onRestart }) => {
 
   return (
     <View style={styles.container}>
-      <ThemedText style={styles.heading}>Pairwise Ranker</ThemedText>
+      <ThemedText style={styles.heading}>Let's pick!</ThemedText>
       <View style={styles.buttonContainer}>
         <Button title={firstItem.text} onPress={() => handleChoice(first)} />
         <ThemedText style={styles.vs}>VS</ThemedText>
