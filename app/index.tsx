@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import RankingPage from "@/components/RankingPage";
-import InputPage from "@/components/InputPage";
+import React, { useState } from "react";
+import RankingPage from "@/components/pages/RankingPage";
+import InputPage from "@/components/pages/InputPage";
 
 // The main App component that will be rendered by the app.
 export default function App() {

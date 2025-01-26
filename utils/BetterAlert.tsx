@@ -9,6 +9,8 @@ type BetterAlertProps = {
 };
 
 
+// Better alert is an alert that works on both web and mobile platforms.
+// If onConfirm is provided, it will show a two-button alert with the confirm and cancel buttons.
 export function betterAlert({
   title,
   message,

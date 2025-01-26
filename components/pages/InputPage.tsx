@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  View,
   KeyboardAvoidingView,
   Platform,
   Button
@@ -11,12 +10,16 @@ import { ListedItem } from "@/components/ListedItem";
 import { PlusButton } from '@/components/PlusButton';
 import styles from "@/styles";
 import { betterAlert } from "@/utils/BetterAlert";
-import { PageView } from "./PageView";
+import { PageView } from "@/components/PageView";
+import { ThemedView } from "@/components/ThemedView";
 
+// Shows UI that the user can use to input items to rank.
+// When the user has inputted at least two items, they can start ranking them by pressing the "Begin ranking" button.
 const InputPage = ({ onStartRanking, infoVisible, setInfoVisible }) => {
-  const [items, setItems] = useState([]);
-  const [inputValue, setInputValue] = useState("");
+  const [items, setItems] = useState([]); // Stores the items that we're ranking
+  const [inputValue, setInputValue] = useState(""); // The value of the input field
 
+  // Adds a new item to the list of items to rank, if the input is not empty.
   const addItem = () => {
     if (inputValue.trim()) {
       const newItem = { id: Date.now(), text: inputValue.trim() };
@@ -27,14 +30,17 @@ const InputPage = ({ onStartRanking, infoVisible, setInfoVisible }) => {
     }
   };
 
+  // Deletes an item from the list of items to rank.
   const deleteItem = (id) => {
     setItems(items.filter((item) => item.id !== id));
   };
 
+  // Prompts the user to confirm if they want to delete an item.
   const handleDeleteItem = (item) => {
     betterAlert({title: "Delete Item", message: "Are you sure you want to delete the item '" + item.text + "'?", onConfirm: () => deleteItem(item.id)});
   };
 
+  // Starts the ranking process if there are at least two items to rank.
   const handleStart = () => {
     if (items.length < 2) {
       betterAlert({title: "Error", message: "Please add at least two items to rank."});
@@ -44,11 +50,14 @@ const InputPage = ({ onStartRanking, infoVisible, setInfoVisible }) => {
   };
 
   return (
-    <PageView content={
-      <View style={styles.container}>
-      <View>
+    <PageView content={ // We wrap the content in a PageView component to make it look nice.
+      <ThemedView style={styles.container}>
+      <ThemedView>
+        {/* Title */}
         <ThemedText style={styles.sectionTitle}>Enter items to rank</ThemedText>
-        <View style={styles.items}>
+
+        {/* For each item we display a ListedItem, which is UI that shows the item & allows it to be deleted. */}
+        <ThemedView style={styles.items}>
           {items.map((item) => (
             <ListedItem
               key={item.id}
@@ -56,15 +65,18 @@ const InputPage = ({ onStartRanking, infoVisible, setInfoVisible }) => {
               deleteItem={() => handleDeleteItem(item)}
             />
           ))}
-        </View>
-      </View>
-      <View>
+        </ThemedView>
+      </ThemedView>
+
+      {/* Shows begin ranking button only if there are 2 or more input items. */}
+      <ThemedView>
         {items.length >= 2 ? (
           <Button title="Begin ranking" onPress={handleStart} />
         ) : (null)}
-      </View>
-    </View>
+      </ThemedView>
+    </ThemedView>
     } bottomContent= {
+      /* Anchored to the bottom of the screen is the input textbox for new items. */
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.writeTaskWrapper}

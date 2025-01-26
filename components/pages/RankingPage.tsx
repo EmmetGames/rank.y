@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { View, Button, StyleSheet, Platform } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import styles from "@/styles";
-import { AutoSizedButton } from "./AutoSizedButton";
+import { AutoSizedButton } from "../AutoSizedButton";
 import { betterAlert } from "@/utils/BetterAlert";
-import { PageView } from "./PageView";
+import { PageView } from "../PageView";
 
 const RankingPage = ({ items, onRestart, infoVisible, setInfoVisible }) => {
   const [rankedBelow, setRankedBelow] = useState({}); // Stores ranked-below lists per item
