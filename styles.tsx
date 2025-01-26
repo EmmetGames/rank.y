@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { PlusButton } from "./components/PlusButton";
 
 const styles = StyleSheet.create({
   titleContainer: { flexDirection: "row", alignItems: "center", gap: 8 },
@@ -37,6 +38,9 @@ const styles = StyleSheet.create({
     left: 0,
     position: 'absolute',
   },
+  plusButton: {
+    backgroundColor: '#2196F3',
+  }
 });
 
 export default styles;

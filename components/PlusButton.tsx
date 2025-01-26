@@ -9,8 +9,8 @@ export function PlusButton({ addItem }) {
   return (
     <ThemedView>
       <TouchableOpacity onPress={addItem}>
-        <ThemedView style={styles.addWrapper}>
-          <ThemedText>+</ThemedText>
+        <ThemedView style={[styles.addWrapper, styles.plusButton]}>
+          <ThemedText type="title">+</ThemedText>
         </ThemedView>
       </TouchableOpacity>
     </ThemedView>
