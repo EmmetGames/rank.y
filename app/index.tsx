@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import PairwiseRanker from "@/components/PairwiseRanker";
+import RankingPage from "@/components/RankingPage";
 import InputPage from "@/components/InputPage";
 
+// The main App component that will be rendered by the app.
 export default function App() {
-  const [items, setItems] = useState(null);
-  const [infoVisible, setInfoVisible] = useState(false);
+  const [items, setItems] = useState(null); // Stores the items that we're ranking
+  const [infoVisible, setInfoVisible] = useState(false); // Whether the info modal is visible
 
   const handleStartRanking = (items) => {
     setItems(items);
@@ -14,9 +15,10 @@ export default function App() {
     setItems(null);
   };
 
+  // If items have been set, render the RankingPage component. Otherwise, render the InputPage component.
   if (items) {
     return (
-      <PairwiseRanker items={items} onRestart={handleRestart} infoVisible={infoVisible} setInfoVisible={setInfoVisible} />
+      <RankingPage items={items} onRestart={handleRestart} infoVisible={infoVisible} setInfoVisible={setInfoVisible} />
     )
   }
   else {

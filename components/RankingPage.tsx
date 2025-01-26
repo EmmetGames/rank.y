@@ -6,7 +6,7 @@ import { AutoSizedButton } from "./AutoSizedButton";
 import { betterAlert } from "@/utils/BetterAlert";
 import { PageView } from "./PageView";
 
-const PairwiseRanker = ({ items, onRestart, infoVisible, setInfoVisible }) => {
+const RankingPage = ({ items, onRestart, infoVisible, setInfoVisible }) => {
   const [rankedBelow, setRankedBelow] = useState({}); // Stores ranked-below lists per item
   const [possiblePairings, setPossiblePairings] = useState([]); // All possible pairings
   const [currentPair, setCurrentPair] = useState(null); // The pair currently being ranked
@@ -217,7 +217,7 @@ const PairwiseRanker = ({ items, onRestart, infoVisible, setInfoVisible }) => {
   );
 };
 
-export default PairwiseRanker;
+export default RankingPage;
 
 const pairwiseRankerStyles = StyleSheet.create({
   rowContainer: {
