@@ -8,6 +8,9 @@ const PairwiseRanker = ({ items, onRestart }) => {
   const [possiblePairings, setPossiblePairings] = useState([]); // All possible pairings
   const [currentPair, setCurrentPair] = useState(null); // The pair currently being ranked
 
+  // Track the initial number of pairings (N)
+  const [initialPairingsCount, setInitialPairingsCount] = useState(0);
+
   useEffect(() => {
     console.log("Starting Items Array:", items);
     if (items) {
@@ -26,6 +29,7 @@ const PairwiseRanker = ({ items, onRestart }) => {
 
       setRankedBelow(initialRankedBelow);
       setPossiblePairings(allPairs);
+      setInitialPairingsCount(allPairs.length);
       setCurrentPair(allPairs[Math.floor(Math.random() * allPairs.length)]);
     }
   }, [items]);
@@ -136,6 +140,12 @@ const PairwiseRanker = ({ items, onRestart }) => {
   const firstItem = items.find((item) => item.id === first);
   const secondItem = items.find((item) => item.id === second);
 
+  // 2. Calculate our progress: (N - X) / N
+  const N = initialPairingsCount;
+  const X = possiblePairings.length;
+  const progressValue = N === 0 ? 0 : (N - X) / N;
+  const progressPercent = Math.round(progressValue * 100);
+
   // Debug: Print the current pair and their rankings
   console.log(
     "Current Pair:",
@@ -161,6 +171,29 @@ const PairwiseRanker = ({ items, onRestart }) => {
         <Button title={secondItem.text} onPress={() => handleChoice(second)} />
       </View>
       <Button title="Restart" onPress={handleRestart} />
+      <View style={{ marginTop: 16, alignSelf: "stretch" }}>
+        {/* Outer bar (background) */}
+        <View
+          style={{
+            backgroundColor: "#ccc",
+            height: 8,
+            borderRadius: 4,
+          }}
+        >
+          {/* Inner bar (progress) */}
+          <View
+            style={{
+              backgroundColor: "#007AFF",
+              width: `${progressPercent}%`,
+              height: "100%",
+              borderRadius: 4,
+            }}
+          />
+        </View>
+        <ThemedText style={{ textAlign: "center", marginTop: 6 }}>
+          {progressPercent}% Complete
+        </ThemedText>
+      </View>
     </View>
   );
 };
