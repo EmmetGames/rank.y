@@ -1,11 +1,12 @@
 {
   "expo": {
-    "name": "my-app",
-    "slug": "my-app",
+    "name": "ranky",
+    "slug": "ranky",
+    "description": "A simple app to rank things using pairwise comparison",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "ranky",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -15,7 +16,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.emmetgames.ranky"
     },
     "web": {
       "bundler": "metro",
@@ -36,6 +38,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "f3e530b8-8f8a-42dc-b522-f6fbefc4228b"
+      }
     }
   }
 }
