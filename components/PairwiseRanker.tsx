@@ -40,105 +40,65 @@ const PairwiseRanker = ({ items, onRestart }) => {
 
   const handleChoice = (selectedId) => {
     if (!currentPair) return;
-
+  
     const [first, second] = currentPair;
     const nonSelectedId = selectedId === first ? second : first;
-    const updatedRankedBelow = { ...rankedBelow };
-
-    // Recursive function to update rankings
+  
+    // 1. Clone the existing data
+    const newRankedBelow = { ...rankedBelow };
+    let newPairings = [...possiblePairings];
+  
+    // 2. Define a local, recursive function
     const updateRankings = (winnerId, loserId) => {
-      if (!updatedRankedBelow[winnerId].includes(loserId)) {
-        updatedRankedBelow[winnerId].push(loserId);
+      // Insert loserId into winner's list if not present
+      if (!newRankedBelow[winnerId].includes(loserId)) {
+        newRankedBelow[winnerId].push(loserId);
       }
-    
-      // Add all items from loser's rankedBelow list to winner's list, avoiding duplicates
-      updatedRankedBelow[loserId].forEach((id) => {
-        if (!updatedRankedBelow[winnerId].includes(id)) {
-          updatedRankedBelow[winnerId].push(id);
+  
+      // Pull in all items from loser's list
+      newRankedBelow[loserId].forEach((id) => {
+        if (!newRankedBelow[winnerId].includes(id)) {
+          newRankedBelow[winnerId].push(id);
         }
       });
-
-      // Remove pairings involving the loser and items already ranked below the winner
-      console.log("Filtering Possible Pairings:");
-      possiblePairings.forEach(([id1, id2]) => {
-        console.log(
-          `- Pair: ${getText(id1)} (${id1}) vs ${getText(id2)} (${id2})`
-        );
-      });
-    
-      const filtered = possiblePairings.filter(([id1, id2]) => {
+  
+      // Now remove pairings that are invalid given the new relationships
+      newPairings = newPairings.filter(([id1, id2]) => {
         const loserIsInvalid =
-          (id1 != winnerId && updatedRankedBelow[id2].includes(id1)) ||
-          (id2 != winnerId && updatedRankedBelow[id1].includes(id2));
-    
+          (id1 !== winnerId && newRankedBelow[id2].includes(id1)) ||
+          (id2 !== winnerId && newRankedBelow[id1].includes(id2));
+  
         const currentPairIsRanked =
           (id1 === winnerId && id2 === loserId) ||
           (id1 === loserId && id2 === winnerId);
-    
-        if (currentPairIsRanked) {
-          console.log(
-            `Removing pairing [${getText(id1)} (${id1}) vs ${getText(id2)} (${id2})] - already ranked.`
-          );
-        } else if (loserIsInvalid) {
-          console.log(
-            `Removing pairing [${getText(id1)} (${id1}) vs ${getText(id2)} (${id2})] - loser (${getText(
-              loserId
-            )}) - Inferred ranking.`
-          );
-        } else {
-          console.log(
-            `Keeping pairing [${getText(id1)} (${id1}) vs ${getText(id2)} (${id2})].`
-          );
-        }
-    
-        return !currentPairIsRanked && !loserIsInvalid;
+  
+        return !loserIsInvalid && !currentPairIsRanked;
       });
-    
-      console.log(
-        `Filtered Possible Pairings: ${JSON.stringify(filtered.map(([id1, id2]) => [getText(id1), getText(id2)]))}`
-      );      
-      setPossiblePairings(filtered);
-    
-      // Find all items where the winner is in their rankedBelow list and propagate the loser's items
-      Object.keys(updatedRankedBelow).forEach((id) => {
-        if (updatedRankedBelow[id].includes(winnerId)) {
-          updateRankings(id, loserId); // Recursive call
+  
+      // Recursively update any item whose rankedBelow contains winnerId
+      Object.keys(newRankedBelow).forEach((id) => {
+        if (newRankedBelow[id].includes(winnerId)) {
+          updateRankings(id, loserId);
         }
       });
     };
-
-    // Debug: Print before modifications
-    console.log(""); // Spacing
-    console.log("Before Update:");
-    console.log("Ranked Below:");
-    Object.entries(updatedRankedBelow).forEach(([id, list]) => {
-      console.log(`- ${getText(id)} (${id}): ${list.map((lid) => `${getText(lid)} (${lid})`).join(", ")}`);
-    });
-    console.log("Possible Pairings Count:", possiblePairings.length);
-    console.log(
-      "Current Pair:",
-      `${getText(first)} (${first}) vs ${getText(second)} (${second})`
-    );
-    console.log("---"); // Spacing
-
-  // Call updateRankings for the current choice
+  
+    // 3. Call our local function
     updateRankings(selectedId, nonSelectedId);
-    setRankedBelow(updatedRankedBelow);
-
-    // Log after updates
-    console.log(
-      `After Update:\nUpdated Ranked Below:\n${Object.entries(updatedRankedBelow)
-        .map(([key, value]) => `- ${getText(key)} (${key}): ${value.map(getText)}`)
-        .join("\n")}`
-    );
-    
-    console.log("Updated Possible Pairings Count:", possiblePairings.length);
-
-    if (possiblePairings.length > 0) { 
-      setCurrentPair(possiblePairings[Math.floor(Math.random() * possiblePairings.length)]);
-    } else {
-      setCurrentPair(null); // No more pairs to rank
+  
+    // 4. Choose the next pair from the updated local variable
+    const pairingsAfterRemoval = newPairings; // name for clarity
+    let nextPair = null;
+    if (pairingsAfterRemoval.length > 0) {
+      nextPair = pairingsAfterRemoval[Math.floor(Math.random() * pairingsAfterRemoval.length)];
     }
+  
+    // 5. Finally, update state in one shot
+    setRankedBelow(newRankedBelow);
+    setPossiblePairings(pairingsAfterRemoval);
+    setCurrentPair(nextPair);
+  
+    // That’s it! All changes are local & synchronous in this function call.
   };
 
   const handleRestart = () => {
