@@ -16,7 +16,7 @@ export function ListedItem({ item, deleteItem }) {
         <ThemedView style={styles.circular}>
           <TouchableOpacity key={item.id}  onPress={deleteItem}>
             <Image
-              source={require('@/assets/images/partial-react-logo.png')}
+              source={require('@/assets/images/trashcan.png')}
               style={styles.circular}
             />
           </TouchableOpacity>
@@ -52,9 +52,9 @@ const styles = StyleSheet.create({
     maxWidth: '80%',
   },
   circular: {
-    width: 24,
-    height: 24,
-    borderWidth: 2,
-    borderRadius: 5,
+    width: 32,
+    height: 32,
+    borderWidth: 0,
+    tintColor: '#FF6347',
   },
 });
