@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   View,
-  Alert,
   KeyboardAvoidingView,
   Platform,
   TouchableOpacity,
@@ -13,6 +12,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { ListedItem } from "@/components/ListedItem";
 import { PlusButton } from '@/components/PlusButton';
 import styles from "@/styles";
+import { betterAlert } from "@/utils/BetterAlert";
 
 const InputPage = ({ onStartRanking }) => {
   const [items, setItems] = useState([]);
@@ -24,7 +24,7 @@ const InputPage = ({ onStartRanking }) => {
       setItems([...items, newItem]);
       setInputValue("");
     } else {
-      Alert.alert("Error", "Item cannot be empty.");
+      betterAlert({title: "Error", message: "Item cannot be empty."});
     }
   };
 
@@ -34,7 +34,7 @@ const InputPage = ({ onStartRanking }) => {
 
   const handleStart = () => {
     if (items.length < 2) {
-      Alert.alert("Error", "Please add at least two items to rank.");
+      betterAlert({title: "Error", message: "Please add at least two items to rank."});
       return;
     }
     onStartRanking(items);

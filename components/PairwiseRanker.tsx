@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { View, Button, Alert, StyleSheet } from "react-native";
+import { View, Button, StyleSheet, Platform } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import styles from "@/styles";
 import { AutoSizedButton } from "./AutoSizedButton";
+import { betterAlert } from "@/utils/BetterAlert";
 
 const PairwiseRanker = ({ items, onRestart }) => {
   const [rankedBelow, setRankedBelow] = useState({}); // Stores ranked-below lists per item
@@ -107,14 +108,7 @@ const PairwiseRanker = ({ items, onRestart }) => {
   };
 
   const handleRestart = () => {
-    Alert.alert(
-      "Restart",
-      "Are you sure you want to restart? All progress will be lost.",
-      [
-        { text: "Cancel", style: "cancel" },
-        { text: "Restart", onPress: onRestart },
-      ]
-    );
+    betterAlert({title: "Restart", message: "Are you sure you want to restart? All progress will be lost.", onConfirm: onRestart});
   };
 
   if (!items || items.length === 0) return null;
@@ -132,7 +126,9 @@ const PairwiseRanker = ({ items, onRestart }) => {
             {index + 1}. {getText(id)}
           </ThemedText>
         ))}
-        <Button title="Restart" onPress={handleRestart} />
+        <View style={{marginVertical: 100}}>
+          <Button title="Restart" onPress={handleRestart} />
+        </View>
       </View>
     );
   }
