@@ -45,6 +45,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 8, // 8 px spacing on left/right
     marginVertical: 8, // 8 px spacing on top/bottom
   },
+  infoButtonWrapper: {
+    position: "absolute",
+    top: 40,    // adjust as needed based on your header or safe area
+    right: 10,
+    zIndex: 999,  // ensure the button is on top
+  },
 });
 
 export default styles;

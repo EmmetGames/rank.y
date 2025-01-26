@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import {
   Image,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
   StyleSheet
 } from "react-native";
 
@@ -12,10 +15,12 @@ import InputPage from "@/components/InputPage";
 import InfoButton from "@/components/InfoButton";
 import styles from "@/styles";
 import InfoModal from "@/components/InfoModal";
+import { ThemedTextInput } from "@/components/ThemedTextInput";
 
 export default function App() {
   const [items, setItems] = useState(null);
   const [infoVisible, setInfoVisible] = useState(false);
+  const [inputValue, setInputValue] = useState("");
 
   const handleStartRanking = (items) => {
     setItems(items);
@@ -25,7 +30,19 @@ export default function App() {
     setItems(null);
   };
 
+  if (items) {
+    return (
+      <PairwiseRanker items={items} onRestart={handleRestart} />
+    )
+  }
+  else {
+    return (
+      <InputPage onStartRanking={handleStartRanking} infoVisible={infoVisible} setInfoVisible={setInfoVisible} />
+    )
+  }
   return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <ThemedView style={{ flex: 1 }}>
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
       headerImage={
@@ -56,14 +73,22 @@ export default function App() {
           )}
       </ThemedView>
     </ParallaxScrollView>
+    </ThemedView>
+    {/* A fixed input row at the bottom, not overlapping the scroll view */}
+    <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <ThemedTextInput
+          style={styles.input}
+          placeholder="New Item"
+          value={inputValue}
+          onChangeText={setInputValue}
+        />
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
 const localStyles = StyleSheet.create({
-  infoButtonWrapper: {
-    position: "absolute",
-    top: 40,    // adjust as needed based on your header or safe area
-    left: 10,
-    zIndex: 999,  // ensure the button is on top
-  },
+ 
 });
