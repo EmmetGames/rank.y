@@ -1,50 +1,74 @@
-# Welcome to your Expo app 👋
+# Rank.y
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Rank.y is a simple yet powerful FOSS tool that helps you decide what matters most. Instead of juggling a long list of tasks or ideas all at once, Rank.y guides you through pairwise comparisons—asking which of two items you prefer—until you arrive at a clear, final ranking.
 
-## Get started
+---
 
-1. Install dependencies
+## Live Demo & Availability
 
+You can find the deployed project available on web & mobile:
+
+- **Website**: [Rank.y.expo.app](https://ranky.expo.app/)
+- **Google Play Store**: [Rank.y on Google Play](https://play.google.com/store/apps/details?id=com.emmetgames.ranky)
+
+---
+
+## How Does It Work?
+
+1. Add Items – Input any tasks, ideas, or options you want to compare.
+2. Begin Ranking – The app systematically shows you two items at a time. Just pick which one you prefer!
+3. See the Final List – Watch Rank.y automatically infer the rest of your preferences, giving you a sorted list from most to least important.
+
+---
+
+## Open Source Solutions Leveraged
+
+This project was made possible by the following open-source tools and resources:
+
+1. **[React Native](https://reactnative.dev/)**: The backbone of this project's cross-platform app development.
+2. **[Expo](https://expo.dev/)**: Simplifies the development and deployment process with its robust ecosystem.
+3. **Graphics from [Kenney.nl](https://kenney.nl/)**: High-quality and free game assets from the legendary Kenney himself.
+4. **Icons and glyphs from [Figma Rounded Glyphs](https://www.figma.com/design/wyQQBVAU7cNf2eb5qGI9EK/%E2%9D%96-Rounded-%7C-Glyphs?node-id=0-1&p=f&t=77MRNHTT97pwVfbk-0)**: Awesome pool of FOSS icons.
+
+---
+
+## Installation
+
+To run this app locally, follow these steps:
+
+1. Clone the repository:
    ```bash
-   npm install
+   git clone https://github.com/EmmetGames/rank.y.git
    ```
 
-2. Start the app
-
+2. Navigate to the project directory:
    ```bash
-    npx expo start
+   cd ranky
    ```
 
-In the output, you'll find options to open the app in a
+3. Run a local host of this using Expo
+   ```bash
+   npx expo start
+   ```
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+5. Scan the QR code in the Expo Go app (available on iOS and Android) to run the app on your device, or go to [http://localhost:8081/](http://localhost:8081/) in your web browser.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+---
 
-## Get a fresh project
+## License
 
-When you're ready, run:
+Rank.y is licensed under the [MIT License](LICENSE). Feel free to use, modify, and distribute this project as per the terms of the license.
 
-```bash
-npm run reset-project
-```
+---
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Acknowledgments
 
-## Learn more
+A special thanks to the developers and artists behind these amazing resources:
 
-To learn more about developing your project with Expo, look at the following resources:
+- [React Native](https://reactnative.dev/)
+- [Expo](https://expo.dev/)
+- [Kenney](https://kenney.nl/) for graphics.
+- [Rounded Glyphs](https://www.figma.com/design/wyQQBVAU7cNf2eb5qGI9EK/%E2%9D%96-Rounded-%7C-Glyphs?node-id=0-1&p=f&t=77MRNHTT97pwVfbk-0) for icons.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Your work makes projects like this possible!
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
